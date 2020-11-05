@@ -1,0 +1,170 @@
+﻿@model Immigration.Models.tblGuest
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+<div class="card" style="border-radius:10px">
+    <div class="card-body wizard-content">
+        <h4 class="card-title" style="padding-left:30px;">Update Guest Info</h4>
+        <div style="background:#eeeeee;padding:30px;border-radius:10px;">
+            <form id="uForm">
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.guestId)
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.guestName, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.guestName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.guestName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.guestNationality, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("guestNationality", ViewBag.ID as SelectList, "Please Select Country", new { @class = "select2 form-control custom-select select2-hidden-accessible" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.passportNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.passportNumber, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.passportNumber, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.guestAddress, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.guestAddress, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.guestAddress, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.inDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.inDate, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.inDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.outDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.outDate, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.outDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.assignedRoomNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.assignedRoomNumber, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.assignedRoomNumber, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    @*<div class="form-group">
+                            @Html.LabelFor(model => model.guestDocuments, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <input type="file" id="ImageFile" name="ImageFile" class="form-control" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <img src="@Url.Content(Model.guestDocuments)" height="40" width="50" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.guestDocuments, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.guestDocuments, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.guestDocuments, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="hotelId" name="hotelId" value="@Model.hotelId" />
+                    <input type="hidden" id="addedBy" name="addedBy" value="@Model.addedBy" />
+                    <input type="hidden" id="addedDate" name="addedDate" value="@Model.addedDate" />
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Update" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#inDate").datepicker();
+        $("#outDate").datepicker();
+        $("#uForm").validate({
+            rules: {
+                guestName: {
+                    required: true
+                },
+                guestNationality: {
+                    required: true
+                },
+                passportNumber: {
+                    required: true
+                },
+                guestAddress: {
+                    required: true
+                },
+                inDate: {
+                    required: true
+                },
+                outDate: {
+                    required: true
+                },
+                assignedRoomNumber: {
+                    required: true
+                },
+                guestDocuments: {
+                    required: true
+                }
+            },
+            messages: {
+                guestName: "guest name is required.",
+                guestNationality: "country name is required.",
+                passportNumber: "passport number is required.",
+                guestAddress: "address is required.",
+                inDate: "date in is required.",
+                outDate: "date out is required.",
+                assignedRoomNumber: "room number is required.",
+                guestDocuments: "passport image is required.",
+            },
+            submitHandler: function () {
+                var data = $("#uForm").serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "/Guests/Edit",
+                    data: data,
+                    success: function () {
+                        swal({
+                            icon: "success",
+                            title: "successfully done!!",
+                        }).then((confirm) => {
+                            if (confirm == true) {
+                                window.location.href = "/Guests/Index";
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    });
+</script>
+

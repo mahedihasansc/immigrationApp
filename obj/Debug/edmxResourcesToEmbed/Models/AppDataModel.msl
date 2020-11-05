@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="appHotelModelStoreContainer" CdmEntityContainer="HotelEntities">
+    <EntitySetMapping Name="ActiveStatus">
+      <EntityTypeMapping TypeName="appHotelModel.ActiveStatu">
+        <MappingFragment StoreEntitySet="ActiveStatus">
+          <ScalarProperty Name="statusId" ColumnName="statusId" />
+          <ScalarProperty Name="statusName" ColumnName="statusName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="appHotelModel.sysdiagram">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblGuests">
+      <EntityTypeMapping TypeName="appHotelModel.tblGuest">
+        <MappingFragment StoreEntitySet="tblGuest">
+          <ScalarProperty Name="guestId" ColumnName="guestId" />
+          <ScalarProperty Name="guestName" ColumnName="guestName" />
+          <ScalarProperty Name="guestNationality" ColumnName="guestNationality" />
+          <ScalarProperty Name="passportNumber" ColumnName="passportNumber" />
+          <ScalarProperty Name="guestAddress" ColumnName="guestAddress" />
+          <ScalarProperty Name="inDate" ColumnName="inDate" />
+          <ScalarProperty Name="outDate" ColumnName="outDate" />
+          <ScalarProperty Name="assignedRoomNumber" ColumnName="assignedRoomNumber" />
+          <ScalarProperty Name="guestDocuments" ColumnName="guestDocuments" />
+          <ScalarProperty Name="hotelId" ColumnName="hotelId" />
+          <ScalarProperty Name="addedBy" ColumnName="addedBy" />
+          <ScalarProperty Name="addedDate" ColumnName="addedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblHotels">
+      <EntityTypeMapping TypeName="appHotelModel.tblHotel">
+        <MappingFragment StoreEntitySet="tblHotel">
+          <ScalarProperty Name="contactNumber" ColumnName="contactNumber" />
+          <ScalarProperty Name="contactPersonName" ColumnName="contactPersonName" />
+          <ScalarProperty Name="districts" ColumnName="districts" />
+          <ScalarProperty Name="capitalCity" ColumnName="capitalCity" />
+          <ScalarProperty Name="hotelId" ColumnName="hotelId" />
+          <ScalarProperty Name="hotelName" ColumnName="hotelName" />
+          <ScalarProperty Name="hotelRegion" ColumnName="hotelRegion" />
+          <ScalarProperty Name="hotelAddress" ColumnName="hotelAddress" />
+          <ScalarProperty Name="addedBy" ColumnName="addedBy" />
+          <ScalarProperty Name="addedDate" ColumnName="addedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblRegions">
+      <EntityTypeMapping TypeName="appHotelModel.tblRegion">
+        <MappingFragment StoreEntitySet="tblRegion">
+          <ScalarProperty Name="regionId" ColumnName="regionId" />
+          <ScalarProperty Name="regionName" ColumnName="regionName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblUsers">
+      <EntityTypeMapping TypeName="appHotelModel.tblUser">
+        <MappingFragment StoreEntitySet="tblUser">
+          <ScalarProperty Name="userId" ColumnName="userId" />
+          <ScalarProperty Name="personName" ColumnName="personName" />
+          <ScalarProperty Name="userName" ColumnName="userName" />
+          <ScalarProperty Name="userHash" ColumnName="userHash" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="passwordHash" ColumnName="passwordHash" />
+          <ScalarProperty Name="userType" ColumnName="userType" />
+          <ScalarProperty Name="assignedHotel" ColumnName="assignedHotel" />
+          <ScalarProperty Name="activeStatus" ColumnName="activeStatus" />
+          <ScalarProperty Name="addedBy" ColumnName="addedBy" />
+          <ScalarProperty Name="addedDate" ColumnName="addedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblUserTypes">
+      <EntityTypeMapping TypeName="appHotelModel.tblUserType">
+        <MappingFragment StoreEntitySet="tblUserType">
+          <ScalarProperty Name="typeId" ColumnName="typeId" />
+          <ScalarProperty Name="typeName" ColumnName="typeName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Countries">
+      <EntityTypeMapping TypeName="appHotelModel.Country">
+        <MappingFragment StoreEntitySet="Country">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CapitalCities">
+      <EntityTypeMapping TypeName="appHotelModel.CapitalCity">
+        <MappingFragment StoreEntitySet="CapitalCity">
+          <ScalarProperty Name="regionId" ColumnName="regionId" />
+          <ScalarProperty Name="capitalName" ColumnName="capitalName" />
+          <ScalarProperty Name="capitalId" ColumnName="capitalId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Districts">
+      <EntityTypeMapping TypeName="appHotelModel.District">
+        <MappingFragment StoreEntitySet="Districts">
+          <ScalarProperty Name="capitalId" ColumnName="capitalId" />
+          <ScalarProperty Name="districtName" ColumnName="districtName" />
+          <ScalarProperty Name="districtId" ColumnName="districtId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

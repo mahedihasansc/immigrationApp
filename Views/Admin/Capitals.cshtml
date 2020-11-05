@@ -1,0 +1,123 @@
+﻿@model Immigration.Models.CapitalCity
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+<div class="page-breadcrumb">
+    <div class="row">
+        <div class="col-12 d-flex no-block align-items-center">
+            <div class="ml-auto text-right">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="@Url.Action("Index","Admin")" class="btn btn-success">Back to Home</a>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card" style="border-radius:10px">
+    <div class="card-body wizard-content">
+        <h4 class="card-title pull-left" style="padding-left:30px;">Capitals Registration</h4>
+        @*<div class="row">
+            <div class="leftDiv" style="">
+                <h4 class="card-title pull-left" style="padding-left:30px;">Capitals Registration</h4>
+            </div>
+            <div class="backDiv">
+                <a style="margin-top: -12px;" href="@Url.Action("Index","Admin")" class="btn btn-success pull-right">Back to Home</a>
+            </div>
+        </div>*@
+        <div style="background:#eeeeee;padding:30px;border-radius:10px;">
+            <form id="uForm">
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.regionId, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("regionId", ViewBag.regionId as SelectList, "Please Select Region", new { @class = "select2 form-control custom-select select2-hidden-accessible" })
+                            @Html.ValidationMessageFor(model => model.regionId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.capitalName, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.capitalName, new { htmlAttributes = new { @class = "form-control" } })
+                            <label for="lblcapital"></label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Save" id="btnSave" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#capitalName").change(function () {
+            var cName = $("#capitalName").val();
+            $.post("@Url.Action("CheckCapitalName", "Admin")",
+                {
+                    capitalName: cName
+                },
+            function (data) {
+                if (data == 0) {
+                    $("#capitalName").css("border-color", "green");
+                    $("label[for='lblcapital']").css("color", "green");
+                    $("label[for='lblcapital']").html("you can use this capital name");
+                }
+                else {
+                    $("label[for='lblcapital']").css("color", "blue");
+                    $("label[for='lblcapital']").html("capital name already used.");
+                    $("#capitalName").css("border-color", "Red");
+                    $("#capitalName").val("");
+                }
+            });
+        });
+        $("#uForm").validate({
+            rules: {
+                regionId: {
+                    required: true
+                },
+                capitalName: {
+                    required: true
+                }
+            },
+            messages: {
+                regionId: "region is required.",
+                capitalName: "capital name is required."
+            },
+            submitHandler: function () {
+                var data = $("#uForm").serialize();
+                //debugger;
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/Capitals",
+                    data: data,
+                    success: function () {
+                        swal({
+                            icon: "success",
+                            title: "successfully done!!",
+                        }).then((confirm) => {
+                            if (confirm == true) {
+                                //location.reload();
+                                window.location.href = "/Admin/Index";
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    });
+</script>

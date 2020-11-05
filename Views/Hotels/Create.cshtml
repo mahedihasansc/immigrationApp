@@ -1,0 +1,182 @@
+﻿@model Immigration.Models.tblHotel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+<div class="page-breadcrumb">
+    <div class="row">
+        <div class="col-12 d-flex no-block align-items-center">
+            <div class="ml-auto text-right">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="@Url.Action("Index","Hotels")" class="btn btn-success">Back to List</a>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card" style="border-radius:10px">
+    <div class="card-body wizard-content">
+        <h4 class="card-title" style="padding-left:30px;">Hotel Registration</h4>
+        <div style="background:#eeeeee;padding:30px;border-radius:10px;">
+            <form id="uForm">
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.hotelName, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.hotelName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.hotelName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.hotelRegion, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("hotelRegion", ViewBag.regionId as SelectList, "Please Select Hotel Regions", new { @class = "select2 form-control custom-select select2-hidden-accessible" })
+                            @Html.ValidationMessageFor(model => model.hotelRegion, "", new { @class = "text-danger" })
+                        </div>
+                    </div>                    
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.capitalCity, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10" id="dropdownc">
+                            <select id="capitalCity" name="capitalCity" class="select2 form-control custom-select select2-hidden-accessible"></select>
+                            @Html.ValidationMessageFor(model => model.capitalCity, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.districts, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10" id="dropdownd">
+                            <select id="districts" name="districts" class="select2 form-control custom-select select2-hidden-accessible"></select>
+                            @Html.ValidationMessageFor(model => model.districts, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.hotelAddress, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.hotelAddress, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.hotelAddress, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.contactPersonName, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.contactPersonName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.contactPersonName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.contactNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.contactNumber, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.contactNumber, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <input type="hidden" id="addedBy" name="addedBy" value="@Session["userName"]" />
+                    <input type="hidden" id="addedDate" name="addedDate" value="@ViewBag.ddd" />
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Save" id="btnSave" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#capitalCity").prop("disabled", true);
+        $("#districts").prop("disabled", true);
+        $("#hotelRegion").change(function () {
+            $('#districts').find('option').remove().end();
+            $('#capitalCity').find('option').remove().end();
+            if ($(this).val() != null && $(this).val() != "") {
+                $("#capitalCity").prop("disabled", false);
+                $("#capitalCity").prop('required', true);
+                $("#districts").prop("disabled", false);
+                $("#districts").prop('required', true);
+            }
+            else {
+                $("#capitalCity").prop("disabled", true);
+                $("#districts").prop("disabled", true);
+            }
+            var regionId = $(this).children("option:selected").val();
+            $.post("@Url.Action("AllCapital", "Hotels")",
+                {
+                    id: regionId
+                },
+                function (data) {
+                    var capId;                  
+                    for (var i = 0; i < data.length; i++) {
+                        capId = data[i].capitalId;
+                        $('<option/>', {
+                            value: data[i].capitalId,
+                            html: data[i].capitalName
+                        }).appendTo('#dropdownc select');
+                    }
+                    $.post("@Url.Action("AllDistrict", "Hotels")",
+                        {
+                            id: capId
+                        },
+                        function (dd) {                           
+                            for (var i = 0; i < dd.length; i++) {
+                                $('<option/>', {
+                                    value: dd[i].districtId,
+                                    html: dd[i].districtName
+                                }).appendTo('#dropdownd select');
+                            }
+                        });
+                });
+        });        
+        $("#uForm").validate({
+            rules: {
+                hotelName: {
+                    required: true
+                },
+                hotelRegion: {
+                    required: true
+                },
+                hotelAddress: {
+                    required: true
+                },
+                contactPersonName: {
+                    required:true
+                },
+                contactNumber: {
+                    required: true
+                }
+            },
+            messages: {
+                hotelName: "hotel name is required.",
+                hotelRegion: "hotel region is required.",
+                hotelAddress: "hotel address is required.",
+                contactPersonName: "contact person name is required.",
+                contactNumber: "contact number is required."
+            },
+            submitHandler: function () {
+                var data = $("#uForm").serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "/Hotels/Create",
+                    data: data,
+                    success: function () {
+                        swal({
+                            icon: "success",
+                            title: "successfully done!!",
+                        }).then((confirm) => {
+                            if (confirm == true) {
+                                window.location.href = "/Hotels/Index";
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    });
+</script>

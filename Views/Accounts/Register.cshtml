@@ -1,0 +1,166 @@
+﻿@model Immigration.Models.tblUser
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+<div class="page-breadcrumb">
+    <div class="row">
+        <div class="col-12 d-flex no-block align-items-center">
+            <div class="ml-auto text-right">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="@Url.Action("Index","Accounts")" class="btn btn-success">Back to List</a>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card" style="border-radius:10px">
+    <div class="card-body wizard-content">
+        <h4 class="card-title" style="padding-left:30px;">User Registration</h4>
+        <div style="background:#eeeeee;padding:30px;border-radius:10px;">
+            <form id="uForm" method="post" novalidate="novalidate">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <label>Note: (<span class="text-danger">*</span>) is required field...</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Person Name<span class="text-danger">*</span></label>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.personName, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">User Name<span class="text-danger">*</span></label>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.userName, new { htmlAttributes = new { @class = "form-control" } })
+                            <label for="lblUser"></label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Password<span class="text-danger">*</span></label>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Confirm Password<span class="text-danger">*</span></label>
+                        <div class="col-md-10">
+                            <input type="password" id="confPassword" name="confPassword" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2">User Type<span class="text-danger">*</span></label>
+                        <div class="col-md-10">
+                            @Html.DropDownList("userType", ViewBag.typeId as SelectList, "Please Select User Type", new { @class = "select2 form-control custom-select select2-hidden-accessible" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.assignedHotel, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("assignedHotel", ViewBag.hotelId as SelectList, "Please Select Hotel", new { @class = "select2 form-control custom-select select2-hidden-accessible", @disabled = "disabled" })
+                        </div>
+                    </div>
+                    <input type="hidden" id="activeStatus" name="activeStatus" value="1" />
+                    <input type="hidden" id="addedBy" name="addedBy" value="@Session["userName"]" />
+                    <input type="hidden" id="addedDate" name="addedDate" value="@ViewBag.ddd" />
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Save" id="btnSave" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#userName").change(function () {
+            var uName = $("#userName").val();
+            $.post("@Url.Action("CheckUserName", "Accounts")",
+                {
+                    userName: uName
+                },
+            function (data) {
+                if (data == 0) {
+                    $("#userName").css("border-color", "green");
+                    $("label[for='lblUser']").css("color", "green");
+                    $("label[for='lblUser']").html("you can use this user name");
+                }
+                else {
+                    $("label[for='lblUser']").css("color", "blue");
+                    $("label[for='lblUser']").html("user name already used. new suggestion " + uName + (data + 1));
+                    $("#userName").css("border-color", "Red");
+                    $("#userName").val("");
+                }
+            });
+        });
+        $("#userType").change(function () {
+            if ($(this).val() == "3") {
+                $("#assignedHotel").prop("disabled", false);
+                $("#assignedHotel").prop('required', true);
+            }
+            else {
+                $("#assignedHotel").prop("disabled", true);
+            }
+        });
+        $("#uForm").validate({
+            rules: {
+                personName: {
+                    required: true
+                },
+                userName: {
+                    required: true
+                },
+                password: {
+                    required: true,
+                    minlength: 6
+                },
+                confPassword: {
+                    required: true,
+                    equalTo: "#password"
+                },
+                userType: {
+                    required: true
+                }
+            },
+            messages: {
+                personName: "person name is required.",
+                userName: "user name is required.",
+                password: {
+                    required: "password is required.",
+                    minlength: "password must be at least 6 characters long"
+                },
+                confPassword: {
+                    required: "confirm password is required.",
+                    equalTo: "please enter the same password as above."
+                },
+                userType: "user type is required."
+            },
+            submitHandler: function () {
+                var data = $("#uForm").serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "/Accounts/Register",
+                    data: data,
+                    success: function () {
+                        swal({
+                            icon: "success",
+                            title: "successfully done!!",
+                        }).then((confirm) => {
+                            if (confirm == true) {
+                                window.location.href = "/Accounts/Index";
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    });
+</script>

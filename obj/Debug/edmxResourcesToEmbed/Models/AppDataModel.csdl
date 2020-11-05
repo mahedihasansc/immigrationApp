@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="appHotelModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="ActiveStatu">
+    <Key>
+      <PropertyRef Name="statusId" />
+    </Key>
+    <Property Name="statusId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="statusName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="tblGuest">
+    <Key>
+      <PropertyRef Name="guestId" />
+    </Key>
+    <Property Name="guestId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="guestName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="guestNationality" Type="Int32" />
+    <Property Name="passportNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="guestAddress" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="inDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="outDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="assignedRoomNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="guestDocuments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="hotelId" Type="Int32" />
+    <Property Name="addedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="addedDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="tblHotel">
+    <Key>
+      <PropertyRef Name="hotelId" />
+    </Key>
+    <Property Name="hotelId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="hotelName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="hotelRegion" Type="Int32" />
+    <Property Name="hotelAddress" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="addedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="addedDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="capitalCity" Type="Int32" />
+    <Property Name="districts" Type="Int32" />
+    <Property Name="contactPersonName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="contactNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="tblRegion">
+    <Key>
+      <PropertyRef Name="regionId" />
+    </Key>
+    <Property Name="regionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="regionName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="tblUser">
+    <Key>
+      <PropertyRef Name="userId" />
+    </Key>
+    <Property Name="userId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="personName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="userName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="userHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="passwordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="userType" Type="Int32" />
+    <Property Name="assignedHotel" Type="Int32" />
+    <Property Name="activeStatus" Type="Int32" />
+    <Property Name="addedBy" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="addedDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="tblUserType">
+    <Key>
+      <PropertyRef Name="typeId" />
+    </Key>
+    <Property Name="typeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="typeName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Country">
+    <Key>
+      <PropertyRef Name="ID" />
+      <PropertyRef Name="CountryName" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CountryName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="HotelEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="ActiveStatus" EntityType="Self.ActiveStatu" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="tblGuests" EntityType="Self.tblGuest" />
+    <EntitySet Name="tblHotels" EntityType="Self.tblHotel" />
+    <EntitySet Name="tblRegions" EntityType="Self.tblRegion" />
+    <EntitySet Name="tblUsers" EntityType="Self.tblUser" />
+    <EntitySet Name="tblUserTypes" EntityType="Self.tblUserType" />
+    <EntitySet Name="Countries" EntityType="Self.Country" />
+    <EntitySet Name="CapitalCities" EntityType="appHotelModel.CapitalCity" />
+    <EntitySet Name="Districts" EntityType="appHotelModel.District" />
+  </EntityContainer>
+  <EntityType Name="CapitalCity">
+    <Key>
+      <PropertyRef Name="capitalId" />
+    </Key>
+    <Property Name="capitalId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="capitalName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="regionId" Type="Int32" />
+  </EntityType>
+  <EntityType Name="District">
+    <Key>
+      <PropertyRef Name="districtId" />
+    </Key>
+    <Property Name="districtId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="districtName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="capitalId" Type="Int32" />
+  </EntityType>
+</Schema>

@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="appHotelModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="ActiveStatus">
+    <Key>
+      <PropertyRef Name="statusId" />
+    </Key>
+    <Property Name="statusId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="statusName" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="CapitalCity">
+    <Key>
+      <PropertyRef Name="capitalId" />
+    </Key>
+    <Property Name="capitalId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="capitalName" Type="nvarchar" MaxLength="150" />
+    <Property Name="regionId" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'appHotel.dbo.Country' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Country">
+    <Key>
+      <PropertyRef Name="ID" />
+      <PropertyRef Name="CountryName" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CountryName" Type="nvarchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Districts">
+    <Key>
+      <PropertyRef Name="districtId" />
+    </Key>
+    <Property Name="districtId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="districtName" Type="nvarchar" MaxLength="150" />
+    <Property Name="capitalId" Type="int" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="tblGuest">
+    <Key>
+      <PropertyRef Name="guestId" />
+    </Key>
+    <Property Name="guestId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="guestName" Type="nvarchar" MaxLength="200" />
+    <Property Name="guestNationality" Type="int" />
+    <Property Name="passportNumber" Type="nvarchar" MaxLength="100" />
+    <Property Name="guestAddress" Type="nvarchar" MaxLength="250" />
+    <Property Name="inDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="outDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="assignedRoomNumber" Type="nvarchar" MaxLength="100" />
+    <Property Name="guestDocuments" Type="nvarchar(max)" />
+    <Property Name="hotelId" Type="int" />
+    <Property Name="addedBy" Type="nvarchar" MaxLength="100" />
+    <Property Name="addedDate" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tblHotel">
+    <Key>
+      <PropertyRef Name="hotelId" />
+    </Key>
+    <Property Name="hotelId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="hotelName" Type="nvarchar" MaxLength="250" />
+    <Property Name="hotelRegion" Type="int" />
+    <Property Name="hotelAddress" Type="nvarchar" MaxLength="250" />
+    <Property Name="addedBy" Type="nvarchar" MaxLength="100" />
+    <Property Name="addedDate" Type="nvarchar" MaxLength="50" />
+    <Property Name="capitalCity" Type="int" />
+    <Property Name="districts" Type="int" />
+    <Property Name="contactPersonName" Type="nvarchar" MaxLength="250" />
+    <Property Name="contactNumber" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tblRegion">
+    <Key>
+      <PropertyRef Name="regionId" />
+    </Key>
+    <Property Name="regionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="regionName" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="tblUser">
+    <Key>
+      <PropertyRef Name="userId" />
+    </Key>
+    <Property Name="userId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="personName" Type="nvarchar" MaxLength="200" />
+    <Property Name="userName" Type="nvarchar(max)" />
+    <Property Name="userHash" Type="nvarchar(max)" />
+    <Property Name="password" Type="nvarchar(max)" />
+    <Property Name="passwordHash" Type="nvarchar(max)" />
+    <Property Name="userType" Type="int" />
+    <Property Name="assignedHotel" Type="int" />
+    <Property Name="activeStatus" Type="int" />
+    <Property Name="addedBy" Type="nvarchar" MaxLength="100" />
+    <Property Name="addedDate" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tblUserType">
+    <Key>
+      <PropertyRef Name="typeId" />
+    </Key>
+    <Property Name="typeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="typeName" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityContainer Name="appHotelModelStoreContainer">
+    <EntitySet Name="ActiveStatus" EntityType="Self.ActiveStatus" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CapitalCity" EntityType="Self.CapitalCity" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Districts" EntityType="Self.Districts" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblGuest" EntityType="Self.tblGuest" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblHotel" EntityType="Self.tblHotel" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblRegion" EntityType="Self.tblRegion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblUser" EntityType="Self.tblUser" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblUserType" EntityType="Self.tblUserType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Country" EntityType="Self.Country" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Country].[ID] AS [ID], 
+    [Country].[CountryName] AS [CountryName]
+    FROM [dbo].[Country] AS [Country]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>
